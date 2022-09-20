@@ -13,22 +13,23 @@ final class LaunchService: LaunchServiceProtocol {
 
     public static let shared: LaunchServiceProtocol = LaunchService(requestManager: RequestManager.shared)
     private let limit = 20
-    
+
     init(requestManager: RequestManagerProtocol) {
         self.requestManager = requestManager
     }
-    
+
     func fetchLaunches(page: Int, completionHandler: @escaping LaunchesCompletionHandler) {
         let body = bodyBuilder(page: page)
-        
-        self.requestManager.performRequestWith(httpMethod: .post, body: body) { (result: Result<Launch, RequestError>) in
+
+        self.requestManager
+            .performRequestWith(httpMethod: .post, body: body) { (result: Result<Launch, RequestError>) in
             // Taking Data to main thread so we can update UI.
             DispatchQueue.main.async {
                 completionHandler(result)
             }
         }
     }
-    
+
     private func bodyBuilder(page: Int) -> Data? {
         let sort = Sort(flightNumber: "desc")
         let options = Options(limit: limit, page: page, sort: sort)

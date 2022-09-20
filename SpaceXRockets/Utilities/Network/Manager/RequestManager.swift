@@ -11,7 +11,6 @@ typealias DecodableResponse<T: Decodable> = (Result<T, RequestError>) -> Void
 
 final class RequestManager: NSObject, URLSessionDelegate {
 
-    // swiftlint: disable identifier_name
     var baseApi: String = "https://api.spacexdata.com/v5/launches/"
 
     var session: URLSession!
@@ -71,7 +70,7 @@ extension RequestManager: RequestManagerProtocol {
         urlRequest.allHTTPHeaderFields = header
         urlRequest.httpBody = httpBody
         urlRequest.httpMethod = httpMethod.rawValue
-        
+
         return urlRequest
     }
 
@@ -93,4 +92,3 @@ extension RequestManager: RequestManagerProtocol {
         }.resume()
     }
 }
-
