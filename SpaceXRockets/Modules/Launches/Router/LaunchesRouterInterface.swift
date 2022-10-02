@@ -8,5 +8,5 @@
 import UIKit
 
 protocol LaunchesRouterInterface: RouterPresenterInterface {
-
+    func showLaunchDetail(for launch: Launch)
 }

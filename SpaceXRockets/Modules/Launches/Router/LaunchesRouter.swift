@@ -15,5 +15,9 @@ final class LaunchesRouter: RouterInterface {
 }
 
 extension LaunchesRouter: LaunchesRouterInterface {
+    func showLaunchDetail(for launch: Launch) {
+        let detailsViewController = LaunchDetailsModule().build(launch: launch)
+        viewController?.show(detailsViewController, sender: nil)
+    }
 
 }

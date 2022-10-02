@@ -8,5 +8,6 @@
 import UIKit
 
 protocol BookmarksViewInterface: ViewPresenterInterface {
-
+    func reloadCollectionView()
+    func showError(with errorMessage: String)
 }

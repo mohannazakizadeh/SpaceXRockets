@@ -8,5 +8,5 @@
 import Foundation
 
 protocol LaunchesInteractorInterface: InteractorPresenterInterface {
-
+    func getLaunches(page: Int, completionHandler: @escaping LaunchesCompletionHandler)
 }

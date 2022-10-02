@@ -8,5 +8,6 @@
 import UIKit
 
 protocol LaunchesViewInterface: ViewPresenterInterface {
-
+    func reloadCollectionView()
+    func showError(with errorMessage: String)
 }

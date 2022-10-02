@@ -36,7 +36,7 @@ class TabBarController: UITabBarController {
     }
 
     private func setupBookmarksViewController() -> UIViewController {
-        let bookmarksViewController = LaunchesModule().build()
+        let bookmarksViewController = BookmarksModule().build()
         let tabBarItem = UITabBarItem(title: "Bookmarks", image: bookmarkIcon,
                                       selectedImage: UIImage(systemName: "bookmark.fill"))
         bookmarksViewController.tabBarItem = tabBarItem

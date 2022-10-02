@@ -17,15 +17,19 @@ final class BookmarksModule: ModuleInterface {
     typealias Interactor = BookmarksInteractor
 
     func build() -> UIViewController {
-        let view = View()
+        let navigationController = UINavigationController()
+        navigationController.viewControllers = [View()]
+        guard let view = navigationController.topViewController as? View else {
+            return View()
+        }
         let interactor = Interactor()
         let presenter = Presenter()
         let router = Router()
 
         self.assemble(view: view, presenter: presenter, router: router, interactor: interactor)
 
-        router.viewController = view
+        router.viewController = navigationController
 
-        return view
+        return navigationController
     }
 }

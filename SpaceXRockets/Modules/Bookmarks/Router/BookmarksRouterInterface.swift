@@ -8,6 +8,5 @@
 import UIKit
 
 protocol BookmarksRouterInterface: RouterPresenterInterface {
-
+    func showLaunchDetail(for launch: Launch)
 }
-

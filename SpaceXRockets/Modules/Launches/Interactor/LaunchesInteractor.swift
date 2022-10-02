@@ -13,5 +13,10 @@ final class LaunchesInteractor: InteractorInterface {
 }
 
 extension LaunchesInteractor: LaunchesInteractorInterface {
+    func getLaunches(page: Int, completionHandler: @escaping LaunchesCompletionHandler) {
+        LaunchService.shared.fetchLaunches(page: page) { result in
+            completionHandler(result)
+        }
+    }
 
 }

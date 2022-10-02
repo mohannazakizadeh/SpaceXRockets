@@ -7,7 +7,7 @@
 
 import Foundation
 
-typealias LaunchesCompletionHandler = (Result<Launch, RequestError>) -> Void
+typealias LaunchesCompletionHandler = (Result<Launches, RequestError>) -> Void
 
 protocol LaunchServiceProtocol {
     func fetchLaunches(page: Int, completionHandler: @escaping LaunchesCompletionHandler)

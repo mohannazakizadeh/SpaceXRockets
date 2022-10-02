@@ -11,7 +11,7 @@ typealias DecodableResponse<T: Decodable> = (Result<T, RequestError>) -> Void
 
 final class RequestManager: NSObject, URLSessionDelegate {
 
-    var baseApi: String = "https://api.spacexdata.com/v5/launches/"
+    var baseApi: String = "https://api.spacexdata.com/v5/launches/query"
 
     var session: URLSession!
 

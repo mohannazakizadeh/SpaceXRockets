@@ -22,7 +22,7 @@ final class LaunchService: LaunchServiceProtocol {
         let body = bodyBuilder(page: page)
 
         self.requestManager
-            .performRequestWith(httpMethod: .post, body: body) { (result: Result<Launch, RequestError>) in
+            .performRequestWith(httpMethod: .post, body: body) { (result: Result<Launches, RequestError>) in
             // Taking Data to main thread so we can update UI.
             DispatchQueue.main.async {
                 completionHandler(result)
