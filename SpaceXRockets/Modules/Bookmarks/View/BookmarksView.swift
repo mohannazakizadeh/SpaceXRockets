@@ -49,7 +49,7 @@ final class BookmarksView: UIViewController, ViewInterface {
     private func setupCollectionView() -> UICollectionView {
         let layout = UICollectionViewFlowLayout()
         layout.minimumLineSpacing = 12
-        layout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
+        layout.estimatedItemSize = CGSize(width: 330, height: 230)
         let collectionView = UICollectionView(frame: view.frame, collectionViewLayout: layout)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(collectionView)
