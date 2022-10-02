@@ -39,7 +39,6 @@ final class LaunchDetailsInfoView: UIViewController, ViewInterface {
     var detailsStackView: UIStackView?
 
     var totalStackView: UIStackView!
-    var scrollView: UIScrollView!
 
 	// MARK: - Initialize
 
@@ -79,10 +78,7 @@ final class LaunchDetailsInfoView: UIViewController, ViewInterface {
                                         spacing: 32,
                                         axis: .vertical)
 
-        scrollView = setupScrollView()
-        setTotalStackView(in: scrollView)
-
-        setScrollView(in: self.view)
+        setTotalStackView(in: self.view)
 
         self.applyTheme()
     }
@@ -167,13 +163,6 @@ final class LaunchDetailsInfoView: UIViewController, ViewInterface {
         return stackView
     }
 
-    private func setupScrollView() -> UIScrollView {
-        let scrollView = UIScrollView()
-        scrollView.contentSize.width = scrollView.frame.size.width
-        scrollView.frame = self.view.bounds
-        return scrollView
-    }
-
     private func setTotalStackView(in view: UIView? = nil) {
         if let view = view {
             view.addSubview(totalStackView)
@@ -182,7 +171,7 @@ final class LaunchDetailsInfoView: UIViewController, ViewInterface {
             totalStackView.layer.cornerRadius = 14
 
             NSLayoutConstraint.activate([
-                totalStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+                totalStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 32),
                 totalStackView.leftAnchor.constraint(equalTo: view.leftAnchor),
                 totalStackView.widthAnchor.constraint(equalTo: view.widthAnchor),
 
@@ -192,22 +181,6 @@ final class LaunchDetailsInfoView: UIViewController, ViewInterface {
 
                 nameDateStackView.leadingAnchor.constraint(equalTo: totalStackView.leadingAnchor, constant: 16),
                 nameDateStackView.trailingAnchor.constraint(equalTo: totalStackView.trailingAnchor, constant: -16)
-            ])
-        }
-    }
-
-    private func setScrollView(in view: UIView? = nil) {
-        if let view = view {
-            view.addSubview(scrollView)
-
-            scrollView.translatesAutoresizingMaskIntoConstraints = false
-
-            NSLayoutConstraint.activate([
-                scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 32),
-                scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -32),
-                scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-                scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-                scrollView.widthAnchor.constraint(equalTo: view.widthAnchor)
             ])
         }
     }
