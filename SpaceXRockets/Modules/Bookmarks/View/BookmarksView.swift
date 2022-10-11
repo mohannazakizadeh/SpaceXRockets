@@ -12,9 +12,9 @@ final class BookmarksView: UIViewController, ViewInterface {
     var presenter: BookmarksPresenterViewInterface!
 
     // MARK: - Properties
-    lazy var collectionView: UICollectionView = setupCollectionView()
+    private lazy var collectionView: UICollectionView = setupCollectionView()
     private let launchesImagesCache = NSCache<NSNumber, UIImage>()
-
+    private lazy var emptyLabel: UILabel = setupEmptyLabel()
     // MARK: - Initializer
 
     // MARK: - Lifecycle
@@ -30,14 +30,18 @@ final class BookmarksView: UIViewController, ViewInterface {
         presenter.getSavedLaunches()
     }
 
+    override func viewWillDisappear(_ animated: Bool) {
+        presenter.removeDeletedLaunches()
+    }
+
     // MARK: - Theme
 
     func applyTheme() {
         view.backgroundColor = .systemBackground
         collectionView.backgroundColor = .secondarySystemBackground
+        emptyLabel.font = UIFont.boldSystemFont(ofSize: 22)
+        emptyLabel.textColor = .secondaryLabel
     }
-
-    // MARK: - Actions
 
     // MARK: - Private functions
 
@@ -45,11 +49,24 @@ final class BookmarksView: UIViewController, ViewInterface {
         configureNavigation()
     }
 
+    private func setupEmptyLabel() -> UILabel {
+        let label = UILabel()
+        label.text = "Your Bookmarks is empty!"
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.numberOfLines = 0
+        view.addSubview(label)
+        NSLayoutConstraint.activate([
+            label.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            label.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+        ])
+        return label
+    }
+
     // function to setup and configure collectionView details
     private func setupCollectionView() -> UICollectionView {
         let layout = UICollectionViewFlowLayout()
-        layout.minimumLineSpacing = 12
-        layout.estimatedItemSize = CGSize(width: 330, height: 230)
+        let screenWidth = UIScreen.main.bounds.width
+        layout.estimatedItemSize = CGSize(width: screenWidth - 32, height: 130)
         let collectionView = UICollectionView(frame: view.frame, collectionViewLayout: layout)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(collectionView)
@@ -101,15 +118,22 @@ extension BookmarksView: UICollectionViewDelegate, UICollectionViewDataSource, U
 
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "LaunchCell",
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: LaunchCell.self),
                                                             for: indexPath)
                 as? LaunchCell else { return UICollectionViewCell() }
-        let launch = presenter.getLaunch(for: indexPath.row)
+        let launchInformation = presenter.getLaunchInformation(for: indexPath.row)
+        let launch = launchInformation.0
         cell.flightNumber = "\(launch.flightNumber)"
         cell.date = launch.date
         cell.launchState = launch.getState()
-        cell.information = launch.details
+        cell.hasDetails = launchInformation.1
         return cell
+    }
+
+    func collectionView(_ collectionView: UICollectionView,
+                        contextMenuConfigurationForItemAt indexPath: IndexPath,
+                        point: CGPoint) -> UIContextMenuConfiguration? {
+        presenter.configureContextMenu(indexPath.row)
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -129,5 +153,9 @@ extension BookmarksView: BookmarksViewInterface {
         }
         alert.addAction(action)
         self.present(alert, animated: true)
+    }
+
+    func setBookmarksEmptyLabelisHidden(to isHidden: Bool) {
+        emptyLabel.isHidden = isHidden
     }
 }

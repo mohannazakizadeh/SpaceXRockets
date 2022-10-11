@@ -58,7 +58,7 @@ final class LaunchDetailsInfoView: UIViewController, ViewInterface {
         nameDateStackView.distribution = .equalSpacing
 
         flightNumberLabel = setupLabel(with: presenter.flightNumber)
-        flightNumberTitleLabel = setupLabel(with: "Flight Nr.")
+        flightNumberTitleLabel = setupLabel(with: "Flight No.")
         flightNumberStackView = setupStackView(with: [flightNumberLabel, flightNumberTitleLabel],
                                                spacing: 8, axis: .vertical)
         flightNumberStackView.alignment = .center

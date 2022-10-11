@@ -108,7 +108,15 @@ extension LaunchDetailsInfoPresenter: LaunchDetailsInfoPresenterViewInterface {
     }
 
     var launchState: String? {
-        return launch.getState()?.rawValue
+        let state = launch.getState()
+        switch state {
+        case .success:
+            return "Success"
+        case .failure:
+            return "Failure"
+        default:
+            return nil
+        }
     }
 
     var launchDetails: String? {

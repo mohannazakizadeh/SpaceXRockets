@@ -71,4 +71,48 @@ final class CoreDataManager: CoreDataManagerProtocol {
         return launches
     }
 
+    func saveLaunches(launches: [CoreDataLaunch]) {
+        deleteLaunches()
+        for launch in launches {
+            saveLaunch(launch)
+        }
+    }
+
+    private func deleteLaunches() {
+        guard let appDelegate =
+                UIApplication.shared.delegate as? AppDelegate else { return }
+        let context =
+        appDelegate.persistentContainer.viewContext
+        let fetchRequest: NSFetchRequest<NSFetchRequestResult>
+        fetchRequest = NSFetchRequest(entityName: "SavedLaunch")
+
+        // Create a batch delete request for the
+        // fetch request
+        let deleteRequest = NSBatchDeleteRequest(
+            fetchRequest: fetchRequest
+        )
+        deleteRequest.resultType = .resultTypeObjectIDs
+
+        do {
+            let batchDelete = try context.execute(deleteRequest)
+                as? NSBatchDeleteResult
+
+            guard let deleteResult = batchDelete?.result
+                as? [NSManagedObjectID]
+                else { return }
+            let deletedObjects: [AnyHashable: Any] = [
+                NSDeletedObjectsKey: deleteResult
+            ]
+
+            NSManagedObjectContext.mergeChanges(
+                fromRemoteContextSave: deletedObjects,
+                into: [context]
+            )
+
+        } catch let error as NSError {
+            print("Could not delete. \(error), \(error.userInfo)")
+        }
+
+    }
+
 }

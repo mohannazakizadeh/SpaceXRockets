@@ -15,7 +15,7 @@ class LaunchCell: UICollectionViewCell {
     @IBOutlet private var stateIcon: UIImageView!
     @IBOutlet private var stateLabel: UILabel!
     @IBOutlet private var dateLabel: UILabel!
-    @IBOutlet private var informationLabel: UILabel!
+    @IBOutlet private var informationImageView: UIImageView!
 
     var launchImage: UIImage? {
         didSet {
@@ -31,15 +31,20 @@ class LaunchCell: UICollectionViewCell {
 
     var launchState: LaunchState? {
         didSet {
-            stateLabel.text = launchState?.rawValue
-            stateIcon.image = launchState?.icon
 
             switch launchState {
             case .success:
+                stateLabel.text = "Success"
                 stateIcon.tintColor = .systemGreen
-            default:
+                stateIcon.image = launchState?.icon
+            case .failure:
+                stateLabel.text = "Failure"
                 stateIcon.tintColor = .systemRed
-
+                stateIcon.image = launchState?.icon
+            default:
+                stateLabel.text = "Unknown"
+                stateIcon.tintColor = .secondaryLabel
+                stateIcon.image = UIImage(systemName: "questionmark.app")
             }
         }
     }
@@ -50,9 +55,9 @@ class LaunchCell: UICollectionViewCell {
         }
     }
 
-    var information: String? {
+    var hasDetails: Bool? {
         didSet {
-            informationLabel.text = information
+            informationImageView.isHidden = (hasDetails ?? false) ? false : true
         }
     }
 

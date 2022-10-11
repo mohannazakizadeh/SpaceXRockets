@@ -33,8 +33,12 @@ extension LaunchesPresenter: LaunchesPresenterViewInterface {
         getLaunches()
     }
 
-    func getLaunch(for index: Int) -> Launch {
-        return launches[index]
+    func getLaunchInformation(for index: Int) -> (Launch, Bool) {
+        let launch = launches[index]
+        if launch.details != nil {
+            return (launch, true)
+        }
+        return (launch, false)
     }
 
     func getLaunches() {

@@ -10,4 +10,5 @@ import UIKit
 protocol BookmarksViewInterface: ViewPresenterInterface {
     func reloadCollectionView()
     func showError(with errorMessage: String)
+    func setBookmarksEmptyLabelisHidden(to isHidden: Bool)
 }

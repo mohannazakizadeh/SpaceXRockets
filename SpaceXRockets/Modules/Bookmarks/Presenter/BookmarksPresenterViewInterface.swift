@@ -12,7 +12,9 @@ protocol BookmarksPresenterViewInterface: PresenterViewInterface {
     func viewDidLoad()
     func getSavedLaunches()
     func getLaunchImage(index: Int, completion: @escaping (UIImage) -> Void)
-    func getLaunch(for index: Int) -> CoreDataLaunch
+    func getLaunchInformation(for index: Int) -> (CoreDataLaunch, Bool)
+    func configureContextMenu(_ index: Int) -> UIContextMenuConfiguration
+    func removeDeletedLaunches()
     func didSelectLaunch(at index: Int)
     var numberOfLaunches: Int { get }
 }

@@ -44,7 +44,8 @@ final class LaunchesView: UIViewController, ViewInterface {
     // function to setup and configure collectionView details
     private func setupCollectionView() -> UICollectionView {
         let layout = UICollectionViewFlowLayout()
-        layout.estimatedItemSize = CGSize(width: 330, height: 230)
+        let screenWidth = UIScreen.main.bounds.width
+        layout.estimatedItemSize = CGSize(width: screenWidth - 32, height: 130)
         let collectionView = UICollectionView(frame: view.frame, collectionViewLayout: layout)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(collectionView)
@@ -107,11 +108,12 @@ extension LaunchesView: UICollectionViewDelegate, UICollectionViewDataSource, UI
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: LaunchCell.self),
                                                             for: indexPath)
                 as? LaunchCell else { return UICollectionViewCell() }
-        let launch = presenter.getLaunch(for: indexPath.row)
+        let launchInformation = presenter.getLaunchInformation(for: indexPath.row)
+        let launch = launchInformation.0
         cell.flightNumber = "\(launch.flightNumber)"
         cell.date = launch.getFormattedDate()
         cell.launchState = launch.getState()
-        cell.information = launch.details
+        cell.hasDetails = launchInformation.1
         return cell
     }
 
